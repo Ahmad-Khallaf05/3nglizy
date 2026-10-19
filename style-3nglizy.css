@@ -1,9 +1,11 @@
 /* ==========================================================================
    3nglizy - English Conversation Gatherings in Cafes
+   Fully Responsive & Device-Optimized Stylesheet
+
    Brand Color Palette:
-     - Dark Blue: #024478 (Headings, primary buttons, dark sections, body text)
-     - Cyan/Turquoise: #02B8BC (Highlights, hovers, accents, progress bars)
-     - White: #FFFFFF (Main background, cards, text over dark colors)
+     - Dark Blue:       #024478 (Headings, primary buttons, dark sections, body text)
+     - Cyan/Turquoise:  #02B8BC (Highlights, hovers, accents, progress bars)
+     - White:           #FFFFFF (Main background, cards, text over dark colors)
    ========================================================================== */
 
 :root {
@@ -36,12 +38,20 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+}
+
 body {
   font-family: var(--font-body);
   color: var(--clr-text);
   background: var(--clr-bg);
-  overflow-x: hidden;
   line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .eyebrow,
@@ -52,14 +62,24 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
 }
 
-img {
+img, svg, video {
   max-width: 100%;
+  height: auto;
   display: block;
 }
 
 a {
   text-decoration: none;
   transition: all 0.3s var(--ease);
+}
+
+/* Touch-action optimization for mobile responsiveness */
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
 }
 
 ::selection {
@@ -181,7 +201,7 @@ a {
 }
 
 /* ==========================================================================
-   NAVBAR
+   NAVBAR & ANIMATED HAMBURGER MENU
    ========================================================================== */
 .navbar-hw {
   position: fixed;
@@ -195,7 +215,7 @@ a {
 }
 
 .navbar-hw.scrolled {
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(16px);
   padding: 12px 0;
   box-shadow: 0 4px 24px -8px rgba(2, 68, 120, 0.12);
@@ -234,6 +254,9 @@ a {
   padding: 8px 16px !important;
   position: relative;
   transition: color 0.3s var(--ease);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .nav-hw .nav-link::after {
@@ -258,16 +281,65 @@ a {
   transform: scaleX(1);
 }
 
+/* Custom Animated Hamburger Button (Accessible 44x44px touch target) */
+.custom-hamburger {
+  width: 44px;
+  height: 44px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5.5px;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s var(--ease);
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.custom-hamburger:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(2, 184, 188, 0.35);
+}
+
+.custom-hamburger .bar {
+  display: block;
+  width: 25px;
+  height: 2.5px;
+  background-color: var(--clr-primary);
+  border-radius: 2px;
+  transition: transform 0.35s var(--ease), opacity 0.25s var(--ease), background-color 0.3s var(--ease);
+}
+
+/* Morph Hamburger to "X" when open */
+.custom-hamburger:not(.collapsed) .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+  background-color: var(--clr-secondary);
+}
+
+.custom-hamburger:not(.collapsed) .bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(8px);
+}
+
+.custom-hamburger:not(.collapsed) .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+  background-color: var(--clr-secondary);
+}
+
 /* ==========================================================================
-   BUTTONS
+   BUTTONS (Touch-friendly minimum 44px height)
    ========================================================================== */
 .btn-hw-primary {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 0.92rem;
   padding: 12px 28px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   color: #fff !important;
   background: linear-gradient(135deg, var(--clr-primary) 0%, #01355e 100%);
@@ -296,8 +368,10 @@ a {
   font-weight: 600;
   font-size: 0.92rem;
   padding: 12px 28px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   color: #fff !important;
   background: linear-gradient(135deg, var(--clr-secondary) 0%, var(--clr-secondary-dark) 100%);
@@ -318,8 +392,10 @@ a {
   font-weight: 600;
   font-size: 0.92rem;
   padding: 12px 28px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   color: var(--clr-primary);
   background: #fff;
@@ -363,6 +439,7 @@ a {
   filter: blur(3px);
   opacity: 0.6;
   animation: 9s ease-in-out infinite float;
+  pointer-events: none;
 }
 
 .blob-1 {
@@ -449,9 +526,9 @@ a {
 
 .float-card {
   position: absolute;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(2, 184, 188, 0.2);
+  border: 1px solid rgba(2, 184, 188, 0.25);
   border-radius: 18px;
   padding: 14px 18px;
   display: flex;
@@ -459,17 +536,18 @@ a {
   gap: 12px;
   animation: 6s ease-in-out infinite drift;
   box-shadow: 0 12px 28px -8px rgba(2, 68, 120, 0.15);
+  z-index: 2;
 }
 
 .float-card-1 {
   top: 8%;
-  left: -8%;
+  left: -6%;
   animation-delay: 0s;
 }
 
 .float-card-2 {
   bottom: 8%;
-  right: -8%;
+  right: -6%;
   animation-delay: 1.2s;
 }
 
@@ -619,6 +697,7 @@ a {
   border: 6px solid var(--clr-bg);
   box-shadow: 0 20px 40px -14px rgba(2, 68, 120, 0.25);
   overflow: hidden;
+  z-index: 2;
 }
 
 .about-collage .img-b img {
@@ -637,7 +716,7 @@ a {
   display: flex;
   align-items: center;
   gap: 12px;
-  z-index: 2;
+  z-index: 3;
   box-shadow: 0 10px 25px -8px rgba(2, 68, 120, 0.18);
   border: 1px solid rgba(2, 184, 188, 0.2);
 }
@@ -702,7 +781,7 @@ a {
 }
 
 /* ==========================================================================
-   UPCOMING SESSIONS (Causes section transformed)
+   UPCOMING SESSIONS (Fluid Grid Cards)
    ========================================================================== */
 .cause-card {
   background: var(--clr-surface);
@@ -828,7 +907,8 @@ a {
   color: var(--clr-primary);
   background: transparent;
   border: 1.8px solid var(--clr-primary);
-  padding: 11px;
+  padding: 12px;
+  min-height: 44px;
   border-radius: var(--radius-pill);
   transition: all 0.3s var(--ease);
   display: flex;
@@ -972,7 +1052,7 @@ a {
 }
 
 /* ==========================================================================
-   HOSTS / ORGANIZERS (Volunteers section transformed)
+   HOSTS / ORGANIZERS
    ========================================================================== */
 .vol-card {
   border-radius: var(--radius);
@@ -1001,7 +1081,7 @@ a {
 .vol-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(2, 68, 120, 0.92) 0%, rgba(2, 68, 120, 0.15) 55%, transparent 100%);
+  background: linear-gradient(0deg, rgba(2, 68, 120, 0.94) 0%, rgba(2, 68, 120, 0.2) 55%, transparent 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -1024,10 +1104,10 @@ a {
 }
 
 .vol-social a {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1165,6 +1245,7 @@ a {
   font-family: var(--font-display);
   font-weight: 700;
   padding: 16px 38px;
+  min-height: 48px;
   border-radius: var(--radius-pill);
   border: none;
   font-size: 1.05rem;
@@ -1172,6 +1253,7 @@ a {
   transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -1182,14 +1264,17 @@ a {
 }
 
 /* ==========================================================================
-   CONTACT / INQUIRY SECTION
+   CONTACT / INQUIRY SECTION (Touch inputs)
    ========================================================================== */
 .form-control-hw {
   border: 1.5px solid #dce8f2;
   border-radius: var(--radius-sm);
   padding: 13px 16px;
+  min-height: 48px;
+  font-size: 16px; /* Prevents auto-zoom on mobile iOS devices */
   font-family: var(--font-body);
   color: var(--clr-primary);
+  width: 100%;
 }
 
 .form-control-hw:focus {
@@ -1332,6 +1417,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 38px;
 }
 
 .footer-link i {
@@ -1352,9 +1438,15 @@ a {
   transform: translateX(0);
 }
 
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .footer-social a {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1362,7 +1454,6 @@ a {
   align-items: center;
   justify-content: center;
   color: #fff;
-  margin-right: 8px;
   transition: all 0.3s var(--ease);
 }
 
@@ -1423,6 +1514,7 @@ a {
   padding: 6px 6px 6px 18px;
   display: flex;
   align-items: center;
+  min-height: 48px;
   transition: border-color 0.3s var(--ease);
 }
 
@@ -1436,7 +1528,7 @@ a {
   color: #fff;
   flex: 1;
   outline: none;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .newsletter-input input::placeholder {
@@ -1448,12 +1540,13 @@ a {
   border: none;
   color: #fff;
   border-radius: 50%;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s var(--ease);
+  cursor: pointer;
 }
 
 .newsletter-input button:hover {
@@ -1481,6 +1574,8 @@ a {
 
 .footer-bottom-links a {
   color: #94a3b8;
+  display: inline-block;
+  padding: 6px 0;
 }
 
 .footer-bottom-links a:hover {
@@ -1558,24 +1653,380 @@ a {
   z-index: 1200;
 }
 
+
 /* ==========================================================================
-   RESPONSIVE QUERIES
+   MEDIA QUERY 1: max-width: 1200px (Laptops & Small Desktop Screens)
+   Adjusts container padding, scales hero typography, and pulls in absolute cards
+   to ensure zero lateral clipping or awkward word wraps on intermediate viewports.
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .hero-title {
+    font-size: clamp(2.1rem, 3.8vw, 3rem);
+  }
+  .float-card-1 {
+    left: -2%;
+  }
+  .float-card-2 {
+    right: -2%;
+  }
+  .about-badge {
+    left: -2%;
+  }
+  .about-collage .img-b {
+    right: -2%;
+  }
+  .section-pad {
+    padding: 85px 0;
+  }
+}
+
+
+/* ==========================================================================
+   MEDIA QUERY 2: max-width: 992px (Tablets Landscape & Medium Devices)
+   Switches header to mobile hamburger navigation with an accessible dropdown.
+   Converts 2-column hero & about sections into smooth vertical stacks, centers
+   media frames, and pulls float chips safely inside to prevent horizontal scroll.
+   ========================================================================== */
+@media (max-width: 991.98px) {
+  .navbar-hw {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 4px 20px -8px rgba(2, 68, 120, 0.12);
+    padding: 12px 0;
+  }
+
+  /* Mobile Dropdown Drawer */
+  .navbar-hw .collapse.navbar-collapse {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 14px;
+    box-shadow: 0 16px 36px -10px rgba(2, 68, 120, 0.18);
+    border: 1px solid rgba(2, 184, 188, 0.2);
+    max-height: calc(100vh - 85px);
+    overflow-y: auto;
+  }
+
+  .nav-hw .nav-link {
+    padding: 12px 18px !important;
+    font-size: 1.05rem;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--radius-sm);
+  }
+
+  .nav-hw .nav-link:hover,
+  .nav-hw .nav-link:focus {
+    background: var(--clr-secondary-light);
+    color: var(--clr-primary);
+  }
+
+  .nav-hw .nav-link::after {
+    display: none;
+  }
+
+  /* Hero Section Stacked */
+  .hero {
+    padding: 130px 0 75px;
+  }
+
+  .hero-media {
+    max-width: 520px;
+    margin: 30px auto 0;
+  }
+
+  .float-card-1 {
+    top: 14px;
+    left: 14px;
+    animation: none;
+  }
+
+  .float-card-2 {
+    bottom: 14px;
+    right: 14px;
+    animation: none;
+  }
+
+  /* About Us Section Stacked */
+  .about-collage {
+    max-width: 520px;
+    margin: 0 auto 30px;
+  }
+
+  .about-badge {
+    top: 10px;
+    left: 10px;
+  }
+
+  .about-collage .img-b {
+    bottom: 10px;
+    right: 10px;
+    width: 44%;
+  }
+
+  /* Card paddings */
+  .why-card {
+    padding: 28px 22px;
+  }
+}
+
+
+/* ==========================================================================
+   MEDIA QUERY 3: max-width: 768px (Tablets Portrait & Large Mobile Devices)
+   Transforms multi-column blocks (stats band, how it works, upcoming sessions, team)
+   into single/double-column stacks. Enables the sticky bottom CTA bar, creates
+   a vertical timeline for How-it-Works, and guarantees minimum 44px touch targets.
    ========================================================================== */
 @media (max-width: 767.98px) {
   .section-pad {
-    padding: 64px 0;
+    padding: 60px 0;
   }
+
+  /* Stats Band: 2x2 Grid */
+  .stat-item {
+    padding: 24px 8px;
+  }
+
+  .stat-num {
+    font-size: 1.95rem;
+  }
+
+  .stat-label {
+    font-size: 0.82rem;
+  }
+
   .stat-item + .stat-item {
     border-left: none;
+  }
+
+  .stat-item:nth-child(2n) {
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .stat-item:nth-child(n+3) {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
+
+  /* About Collage Scaling */
+  .about-card {
+    padding: 20px;
+  }
+
+  .about-collage .img-a img {
+    height: 300px;
+  }
+
+  .about-collage .img-b img {
+    height: 160px;
+  }
+
+  .about-badge {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .about-badge .ab-ring {
+    width: 44px;
+    height: 44px;
+    font-size: 0.78rem;
+  }
+
+  /* How It Works: Vertical Timeline Flow */
   .hiw-line {
     display: none;
   }
+
+  .hiw-step {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .hiw-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 75px;
+    bottom: -15px;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: repeating-linear-gradient(180deg, var(--clr-secondary) 0 6px, transparent 6px 12px);
+    z-index: 0;
+  }
+
+  /* Testimonials */
+  .testi-section {
+    padding: 26px 18px !important;
+  }
+
+  .testi-card {
+    padding: 22px 18px;
+  }
+
+  .testi-quote {
+    font-size: 0.95rem;
+    min-height: auto;
+  }
+
+  /* CTA Banner */
+  .cta-banner {
+    padding: 45px 22px;
+  }
+
+  .cta-banner h2 {
+    font-size: 1.7rem;
+  }
+
+  .btn-cta {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  /* Contact Card */
+  .contact-card {
+    padding: 22px 18px;
+  }
+
+  /* Host Socials visible on touch screens */
+  .vol-social {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .vol-social a {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Sticky Bottom Bar Active */
   .mobile-donate-bar {
     display: block;
   }
+
   body {
     padding-bottom: 74px;
+  }
+
+  #scrollTop {
+    bottom: 84px;
+    right: 18px;
+  }
+}
+
+
+/* ==========================================================================
+   MEDIA QUERY 4: max-width: 480px (Smartphones Portrait & Small Screens)
+   Maximum mobile ergonomics: 100% full-width action buttons, comfortable typography,
+   fluid cards, 48px touch heights, zero horizontal scroll, and clear touch spacing.
+   ========================================================================== */
+@media (max-width: 480px) {
+  .section-pad {
+    padding: 46px 0;
+  }
+
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  /* Hero Section Typography & Buttons */
+  .hero-title {
+    font-size: 1.85rem;
+    line-height: 1.18;
+  }
+
+  .hero-lead {
+    font-size: 0.98rem;
+  }
+
+  .hero .d-flex.flex-wrap.gap-3 {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-hw-primary,
+  .btn-hw-outline,
+  .btn-hw-cyan {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  .float-card {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .float-card .fc-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .float-card .fc-val {
+    font-size: 0.88rem;
+  }
+
+  .float-card .fc-label {
+    font-size: 0.68rem;
+  }
+
+  .navbar-logo-img {
+    height: 36px;
+    max-width: 140px;
+  }
+
+  /* About Us */
+  .about-collage .img-a img {
+    height: 240px;
+  }
+
+  .about-collage .img-b img {
+    height: 130px;
+  }
+
+  /* Upcoming Session Cards */
+  .cause-body {
+    padding: 18px 16px;
+  }
+
+  .cause-body h5 {
+    font-size: 1.1rem;
+  }
+
+  .session-book-btn {
+    min-height: 48px;
+    font-size: 0.95rem;
+  }
+
+  /* Footer Layout */
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-bottom-links {
+    justify-content: center;
+  }
+
+  .footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-social a {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Quick Reservation Modal */
+  .modal-dialog {
+    margin: 12px;
+  }
+
+  .modal-body {
+    padding: 20px 16px;
   }
 }

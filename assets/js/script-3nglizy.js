@@ -1,6 +1,6 @@
 /**
  * 3nglizy - English Cafe Conversations
- * Interactive JavaScript functionality
+ * Interactive JavaScript functionality & Responsive Mobile Handling
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -49,8 +49,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* ---------- NAVBAR SCROLL STATE ---------- */
+    /* ---------- NAVBAR SCROLL STATE & MOBILE HAMBURGER SYNC ---------- */
     var nav = document.getElementById('mainNav');
+    var navMenu = document.getElementById('navMenu');
+    var toggler = document.querySelector('.custom-hamburger');
+
     function onScroll() {
         if (nav) {
             if (window.scrollY > 40) nav.classList.add('scrolled');
@@ -63,15 +66,40 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    /* Collapse mobile menu after clicking a link */
-    document.querySelectorAll('#navMenu .nav-link').forEach(function (link) {
+    /* Sync hamburger button animation state with Bootstrap collapse events */
+    if (navMenu && toggler) {
+        navMenu.addEventListener('show.bs.collapse', function () {
+            toggler.classList.remove('collapsed');
+            toggler.setAttribute('aria-expanded', 'true');
+        });
+        navMenu.addEventListener('hide.bs.collapse', function () {
+            toggler.classList.add('collapsed');
+            toggler.setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    /* Collapse mobile menu after clicking a navigation link or button inside drawer */
+    document.querySelectorAll('#navMenu .nav-link, #navMenu a.btn-hw-primary').forEach(function (link) {
         link.addEventListener('click', function () {
-            var collapseEl = document.getElementById('navMenu');
-            if (typeof bootstrap !== 'undefined' && collapseEl) {
-                var bsCollapse = bootstrap.Collapse.getInstance(collapseEl);
-                if (bsCollapse) bsCollapse.hide();
+            if (typeof bootstrap !== 'undefined' && navMenu) {
+                var bsCollapse = bootstrap.Collapse.getInstance(navMenu);
+                if (bsCollapse && navMenu.classList.contains('show')) {
+                    bsCollapse.hide();
+                }
             }
         });
+    });
+
+    /* Auto-collapse mobile menu when clicking outside navbar */
+    document.addEventListener('click', function (e) {
+        if (nav && navMenu && navMenu.classList.contains('show')) {
+            if (!nav.contains(e.target)) {
+                if (typeof bootstrap !== 'undefined') {
+                    var bsCollapse = bootstrap.Collapse.getInstance(navMenu);
+                    if (bsCollapse) bsCollapse.hide();
+                }
+            }
+        }
     });
 
     /* ---------- ANIMATED COUNTERS ---------- */
@@ -125,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* ---------- MOUSE-FOLLOW GLOW IN HERO ---------- */
+    /* ---------- MOUSE-FOLLOW GLOW IN HERO (Pointer-fine only) ---------- */
     var heroGlow = document.querySelector('.hero-glow');
     var heroSection = document.querySelector('.hero');
     if (heroSection && heroGlow && window.matchMedia('(pointer:fine)').matches) {

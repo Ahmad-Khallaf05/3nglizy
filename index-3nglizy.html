@@ -68,8 +68,10 @@
       <img src="assets/images/logo-full.png" alt="3nglizy Logo" class="navbar-logo-img">
     </a>
     
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Toggle navigation">
-      <i class="bi bi-list fs-1" style="color:var(--clr-primary);"></i>
+    <button class="navbar-toggler custom-hamburger collapsed border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle mobile navigation">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
     </button>
     
     <div class="collapse navbar-collapse" id="navMenu">
@@ -82,9 +84,16 @@
         <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
       </ul>
+      <!-- Desktop Header CTA Button -->
       <a href="#sessions" class="btn-hw-primary d-none d-lg-inline-flex" id="navCtaBtn">
         <i class="bi bi-cup-hot-fill"></i> Join Next Table
       </a>
+      <!-- Mobile Drawer CTA Button -->
+      <div class="d-lg-none mt-3 pt-3 border-top border-light-subtle">
+        <a href="#sessions" class="btn-hw-primary w-100 justify-content-center py-3">
+          <i class="bi bi-cup-hot-fill me-2"></i> Join Next Table
+        </a>
+      </div>
     </div>
   </div>
 </nav>
